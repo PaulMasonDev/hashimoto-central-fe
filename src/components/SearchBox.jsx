@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Grid, TextField, Typography } from "@material-ui/core";
+import { Button, Grid, TextField } from "@material-ui/core";
 import axios from "axios";
 
 export const SearchBox = (props) => {
