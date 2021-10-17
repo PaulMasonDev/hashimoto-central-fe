@@ -6,7 +6,7 @@ export const SearchBox = (props) => {
   const getData = async () => {
     props.setIsSearching(true);
     const response = await axios.get(
-      `http://localhost:5000/getLinkList/${props.searchTerm}`
+      `https://heroku-central.herokuapp.com/getLinkList/${props.searchTerm}`
     );
     props.setRecipeArray(response.data);
     props.setIsSearching(false);

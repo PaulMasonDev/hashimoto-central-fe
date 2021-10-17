@@ -3,7 +3,9 @@ import { SearchBox } from "./SearchBox";
 import { Grid, Typography } from "@material-ui/core";
 import { RecipeDisplay } from "./RecipeDisplay";
 
-//TODO: NEXT STEP NEED TO MAKE SURE FE CONNEXTS TO BE
+//TODO: SETUP NEW URL FOR API CALLS AS A CONSTANT, CHANGE BUTTONS TO BE MORE MODERN VARIANT
+//CREATE CONDESED RECIPE PAGE, ADD CREDIT BANNERS DEPENDING ON THE WEBSITE IT IS PULLED FROM,
+//ADD FILTERS FOR WEBSITES ON SEARCH. IMPLEMENT TYPESCRIPT
 export const Main = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [recipeArray, setRecipeArray] = useState([]);
