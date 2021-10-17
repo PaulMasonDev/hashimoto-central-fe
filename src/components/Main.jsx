@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { SearchBox } from "./SearchBox";
 import { Grid, Typography } from "@material-ui/core";
 import { RecipeDisplay } from "./RecipeDisplay";
+import { CondensedRecipe } from "./CondensedRecipe";
 
-//TODO: SETUP NEW URL FOR API CALLS AS A CONSTANT, CHANGE BUTTONS TO BE MORE MODERN VARIANT
+//TODO:
 //CREATE CONDESED RECIPE PAGE, ADD CREDIT BANNERS DEPENDING ON THE WEBSITE IT IS PULLED FROM,
-//ADD FILTERS FOR WEBSITES ON SEARCH. IMPLEMENT TYPESCRIPT
+//ADD FILTERS FOR WEBSITES ON SEARCH. IMPLEMENT MORE THAN ONE PAGE OF RESULTS.
 export const Main = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [recipeArray, setRecipeArray] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
+
   return (
     <Grid container direction="column">
       <Grid item>

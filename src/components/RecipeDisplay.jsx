@@ -23,6 +23,7 @@ export const RecipeDisplay = (props) => {
             !recipeName.includes("plan") &&
             !recipeName.includes("resources")
           ) {
+            console.log({ props });
             return (
               <RecipeCard
                 name={recipe.name}

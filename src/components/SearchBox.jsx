@@ -1,12 +1,13 @@
 import React from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
 import axios from "axios";
+import { BASE_URL } from "./Constants";
 
 export const SearchBox = (props) => {
   const getData = async () => {
     props.setIsSearching(true);
     const response = await axios.get(
-      `https://heroku-central.herokuapp.com/getLinkList/${props.searchTerm}`
+      `${BASE_URL}/getLinkList/${props.searchTerm}`
     );
     props.setRecipeArray(response.data);
     props.setIsSearching(false);

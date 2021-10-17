@@ -25,9 +25,13 @@ const useStyles = makeStyles({
 });
 export const RecipeCard = (props) => {
   const classes = useStyles();
-  const handleClick = () => {
+
+  const handleOriginalClick = () => {
     window.open(props.link, "_blank");
   };
+
+  const handleCondensedClick = () => {};
+
   return (
     <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
       <Card sx={{ maxWidth: 345 }} className={classes.recipeCard}>
@@ -46,7 +50,7 @@ export const RecipeCard = (props) => {
             size="small"
             variant="contained"
             color="primary"
-            onClick={handleClick}
+            onClick={handleCondensedClick}
           >
             <ListAltTwoTone />
             Condensed
@@ -55,7 +59,7 @@ export const RecipeCard = (props) => {
             size="small"
             variant="contained"
             color="secondary"
-            onClick={handleClick}
+            onClick={handleOriginalClick}
           >
             <ListAltTwoTone />
             Original
