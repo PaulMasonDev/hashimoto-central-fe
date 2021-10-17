@@ -23,12 +23,13 @@ export const RecipeDisplay = (props) => {
             !recipeName.includes("plan") &&
             !recipeName.includes("resources")
           ) {
-            console.log({ props });
             return (
               <RecipeCard
+                key={recipe.name}
                 name={recipe.name}
                 link={recipe.link}
                 imgSrc={recipe.imgSrc}
+                setCondensedRecipe={props.setCondensedRecipe}
               />
             );
           }

@@ -30,7 +30,9 @@ export const RecipeCard = (props) => {
     window.open(props.link, "_blank");
   };
 
-  const handleCondensedClick = () => {};
+  const handleCondensedClick = () => {
+    props.setCondensedRecipe(props.link);
+  };
 
   return (
     <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
