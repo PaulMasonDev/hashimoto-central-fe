@@ -9,7 +9,6 @@ import { generateCondensedRecipeForHealMeDelicious } from "../API/healMeDeliciou
 import { PrintRecipe } from "./PrintRecipe";
 
 export const CondensedRecipe = () => {
-  const [isPrintRecipeOpen, setIsPrintRecipeOpen] = useState(false);
   const { condensedRecipe } = useSelector((state) => state.recipe);
   const { isLoading } = useSelector((state) => state.recipe.condensedRecipe);
 
@@ -32,18 +31,7 @@ export const CondensedRecipe = () => {
             >
               Back
             </Button>
-            {/* <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => setIsPrintRecipeOpen(true)}
-            >
-              Print
-            </Button> */}
-
-            <PrintRecipe
-              open={isPrintRecipeOpen}
-              close={() => setIsPrintRecipeOpen(false)}
-            />
+            <PrintRecipe />
           </Grid>
         </Grid>
       ) : (
