@@ -13,7 +13,8 @@ export interface RecipeData {
   link: string;
   imgSrc: string;
   name: string;
-  source: string;
+  sourceName: string;
+  sourceUrl: string;
 }
 
 interface CondensedRecipeData {
@@ -75,14 +76,10 @@ export const recipeSlice = createSlice({
     setSearchTerm: (state, action: PayloadAction<string>) => {
       state.searchTerm = action.payload;
     },
-    setRecipeArray: (state, action: PayloadAction<RecipeData[]>) => {
-      const filteredRecipeArray = filterRecipes(action.payload);
-      state.recipeArray = filteredRecipeArray;
-    },
     setCondensedRecipe: (state, action: PayloadAction<CondensedRecipeData>) => {
       state.condensedRecipe = action.payload;
     },
-    resetRecipeResults: (state, action: PayloadAction<boolean>) => {
+    resetRecipeResults: (state) => {
       state.searchTerm = "";
       state.recipeArray = [];
       state.isRecipeResults = false;
@@ -95,7 +92,8 @@ export const recipeSlice = createSlice({
     builder.addCase(
       getRecipeData.fulfilled,
       (state, action: PayloadAction<RecipeData[]>) => {
-        state.recipeArray = action.payload;
+        const filteredRecipes = filterRecipes(action.payload);
+        state.recipeArray = filteredRecipes;
         state.isSearching = false;
         state.isRecipeResults = true;
       }
@@ -124,10 +122,6 @@ export const recipeSlice = createSlice({
   },
 });
 
-export const {
-  setSearchTerm,
-  setRecipeArray,
-  setCondensedRecipe,
-  resetRecipeResults,
-} = recipeSlice.actions;
+export const { setSearchTerm, setCondensedRecipe, resetRecipeResults } =
+  recipeSlice.actions;
 export default recipeSlice.reducer;

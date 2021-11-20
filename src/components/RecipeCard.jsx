@@ -34,9 +34,9 @@ export const RecipeCard = (props) => {
   return (
     <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
       <Card sx={{ maxWidth: 345 }} className={classes.recipeCard}>
-        <CardHeader title={`From ${props.source}`} />
-        <Link href={`https://${props.source}`}>
-          <Typography variant="body1">Head to {props.source}</Typography>
+        <CardHeader title={`From ${props.sourceName}`} />
+        <Link href={`https://${props.sourceUrl}`}>
+          <Typography variant="body1">Head to {props.sourceUrl}</Typography>
         </Link>
         <CardMedia
           component="img"

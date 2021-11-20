@@ -8,10 +8,14 @@ export const RecipeDisplay = (props) => {
   );
 
   return (
-    <Grid item container spacing={2}>
+    <Grid item container direction="column" spacing={2}>
       <Grid item>
-        {isSearching && <CircularProgress align="center" color="primary" />}
-        {recipeArray.length > 0 && (
+        {isSearching && (
+          <Typography variant="h1">
+            <CircularProgress />
+          </Typography>
+        )}
+        {isRecipeResults && (
           <Typography variant="body1">Results for: {searchTerm}</Typography>
         )}
       </Grid>
@@ -23,7 +27,8 @@ export const RecipeDisplay = (props) => {
               name={recipe.name}
               link={recipe.link}
               imgSrc={recipe.imgSrc}
-              source={recipe.source}
+              sourceName={recipe.sourceName}
+              sourceUrl={recipe.sourceUrl}
             />
           );
         })}

@@ -8,8 +8,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDataFromHealMeDelicious } from "../API/healMeDelicious";
 
 export const SearchBox = () => {
-  const { searchTerm, recipeArray } = useSelector((state) => state.recipe);
+  const { searchTerm, isRecipeResults } = useSelector((state) => state.recipe);
   const dispatch = useDispatch();
+
+  const handleChange = (value) => {
+    dispatch(setSearchTerm(value));
+    if (isRecipeResults) {
+      dispatch(resetRecipeResults());
+    }
+  };
+  const handleReset = () => {
+    dispatch(resetRecipeResults());
+  };
 
   return (
     <Grid item container spacing={2} direction="column">
@@ -18,7 +28,7 @@ export const SearchBox = () => {
           variant="outlined"
           value={searchTerm}
           placeholder="Search ingredients..."
-          onChange={(e) => dispatch(setSearchTerm(e.target.value))}
+          onChange={(e) => handleChange(e.target.value)}
         ></TextField>
         <Button
           variant="contained"
@@ -31,8 +41,8 @@ export const SearchBox = () => {
         <Button
           variant="contained"
           color="secondary"
-          disabled={recipeArray.length === 0}
-          onClick={() => dispatch(resetRecipeResults())}
+          disabled={searchTerm === ""}
+          onClick={handleReset}
         >
           Reset
         </Button>
