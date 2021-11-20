@@ -3,8 +3,10 @@ import {
   Card,
   CardActions,
   CardContent,
+  CardHeader,
   CardMedia,
   Grid,
+  Link,
   makeStyles,
   Typography,
 } from "@material-ui/core";
@@ -32,6 +34,10 @@ export const RecipeCard = (props) => {
   return (
     <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
       <Card sx={{ maxWidth: 345 }} className={classes.recipeCard}>
+        <CardHeader title={`From ${props.source}`} />
+        <Link href={`https://${props.source}`}>
+          <Typography variant="body1">Head to {props.source}</Typography>
+        </Link>
         <CardMedia
           component="img"
           height="200"

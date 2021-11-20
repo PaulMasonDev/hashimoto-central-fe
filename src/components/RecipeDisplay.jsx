@@ -23,6 +23,7 @@ export const RecipeDisplay = (props) => {
               name={recipe.name}
               link={recipe.link}
               imgSrc={recipe.imgSrc}
+              source={recipe.source}
             />
           );
         })}
