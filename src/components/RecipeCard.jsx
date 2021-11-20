@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   Card,
@@ -10,6 +9,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { ListAltTwoTone } from "@material-ui/icons";
+import { setCondensedRecipe } from "../redux/recipeSlice";
+import { useDispatch } from "react-redux";
+
 const useStyles = makeStyles({
   recipeCard: {
     margin: "10px",
@@ -25,14 +27,7 @@ const useStyles = makeStyles({
 });
 export const RecipeCard = (props) => {
   const classes = useStyles();
-
-  const handleOriginalClick = () => {
-    window.open(props.link, "_blank");
-  };
-
-  const handleCondensedClick = () => {
-    props.setCondensedRecipe(props.link);
-  };
+  const dispatch = useDispatch();
 
   return (
     <Grid item xl={3} lg={3} md={3} sm={3} xs={12}>
@@ -52,7 +47,7 @@ export const RecipeCard = (props) => {
             size="small"
             variant="contained"
             color="primary"
-            onClick={handleCondensedClick}
+            onClick={() => dispatch(setCondensedRecipe({ ...props }))}
           >
             <ListAltTwoTone />
             Condensed
@@ -61,7 +56,7 @@ export const RecipeCard = (props) => {
             size="small"
             variant="contained"
             color="secondary"
-            onClick={handleOriginalClick}
+            onClick={() => window.open(props.link, "_blank")}
           >
             <ListAltTwoTone />
             Original

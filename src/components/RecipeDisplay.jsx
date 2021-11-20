@@ -1,41 +1,38 @@
 import { CircularProgress, Grid, Typography } from "@material-ui/core";
-import React from "react";
+import { useSelector } from "react-redux";
 import { RecipeCard } from "./RecipeCard";
 
 export const RecipeDisplay = (props) => {
+  const { searchTerm, isSearching, recipeArray } = useSelector(
+    (state) => state.recipe
+  );
+
   return (
     <Grid item container>
       <Grid item>
-        {props.isSearching ? (
-          <CircularProgress align="center" color="primary" />
-        ) : props.recipeArray.length > 0 ? (
-          <Typography variant="body1">
-            Results for: {props.searchTerm}
-          </Typography>
-        ) : null}
+        {isSearching && <CircularProgress align="center" color="primary" />}
+        {recipeArray.length > 0 && (
+          <Typography variant="body1">Results for: {searchTerm}</Typography>
+        )}
       </Grid>
-      <Grid item container xs={12}>
-        {props.recipeArray.map((recipe) => {
-          const recipeName = recipe.name.toLowerCase();
-          if (
-            !recipeName.includes("recipes") &&
-            !recipeName.includes("roundup") &&
-            !recipeName.includes("plan") &&
-            !recipeName.includes("resources")
-          ) {
-            return (
-              <RecipeCard
-                key={recipe.name}
-                name={recipe.name}
-                link={recipe.link}
-                imgSrc={recipe.imgSrc}
-                setCondensedRecipe={props.setCondensedRecipe}
-              />
-            );
-          }
-          return null;
-        })}
-      </Grid>
+      {recipeArray && (
+        <Grid item container xs={12}>
+          {recipeArray.length > 0 ? (
+            recipeArray.map((recipe) => {
+              return (
+                <RecipeCard
+                  key={recipe.name}
+                  name={recipe.name}
+                  link={recipe.link}
+                  imgSrc={recipe.imgSrc}
+                />
+              );
+            })
+          ) : (
+            <Typography variant="body1">NO RESULTS FOUND</Typography>
+          )}
+        </Grid>
+      )}
     </Grid>
   );
 };

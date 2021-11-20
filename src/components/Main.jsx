@@ -1,44 +1,29 @@
-import React, { useState } from "react";
 import { SearchBox } from "./SearchBox";
 import { Grid, Typography } from "@material-ui/core";
 import { RecipeDisplay } from "./RecipeDisplay";
 import { CondensedRecipe } from "./CondensedRecipe";
+import { useSelector } from "react-redux";
 
 //TODO:
 //ADD CREDIT BANNERS DEPENDING ON THE WEBSITE IT IS PULLED FROM,
 //ADD FILTERS FOR WEBSITES ON SEARCH. IMPLEMENT MORE THAN ONE PAGE OF RESULTS.
 export const Main = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [recipeArray, setRecipeArray] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
-  const [condensedRecipe, setCondensedRecipe] = useState("");
-
+  const { condensedRecipe } = useSelector((state) => state.recipe);
   return (
     <Grid container direction="column">
       <Grid item>
         <Typography variant="h1">Hashimotos Central</Typography>
-        {condensedRecipe && <CondensedRecipe link={condensedRecipe} />}
+        {/* TODO:NEED TO FIX THIS DISPLAY */}
+        {Object.keys(condensedRecipe).length > 0 && (
+          <CondensedRecipe link={condensedRecipe} />
+        )}
       </Grid>
-      {!condensedRecipe && (
-        <>
-          <Grid item>
-            <SearchBox
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              setRecipeArray={setRecipeArray}
-              setIsSearching={setIsSearching}
-            />
-          </Grid>
-          <Grid item>
-            <RecipeDisplay
-              searchTerm={searchTerm}
-              recipeArray={recipeArray}
-              isSearching={isSearching}
-              setCondensedRecipe={setCondensedRecipe}
-            />
-          </Grid>
-        </>
-      )}
+      <Grid item>
+        <SearchBox />
+      </Grid>
+      <Grid item>
+        <RecipeDisplay />
+      </Grid>
     </Grid>
   );
 };

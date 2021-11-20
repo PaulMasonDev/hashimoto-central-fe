@@ -1,22 +1,20 @@
-import React from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
-import axios from "axios";
-import { BASE_URL } from "./Constants";
+import {
+  setSearchTerm,
+  setRecipeArray,
+  getRecipeData,
+} from "../redux/recipeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getDataFromHealMeDelicious } from "../API/healMeDelicious";
 
-export const SearchBox = (props) => {
-  const getData = async () => {
-    props.setIsSearching(true);
-    const response = await axios.get(
-      `${BASE_URL}/getLinkList/${props.searchTerm}`
-    );
-    props.setRecipeArray(response.data);
-    props.setIsSearching(false);
-  };
+export const SearchBox = () => {
+  const { searchTerm, recipeArray } = useSelector((state) => state.recipe);
+  const dispatch = useDispatch();
 
-  const handleChange = (e) => {
-    const searchTerm = e.target.value;
-    if (searchTerm === "") props.setRecipeArray([]);
-    props.setSearchTerm(e.target.value);
+  const handleReset = () => {
+    dispatch(setSearchTerm(""));
+    dispatch(setRecipeArray([]));
+    //TODO: ADD FOCUS ON INPUT HERE
   };
 
   return (
@@ -24,11 +22,24 @@ export const SearchBox = (props) => {
       <Grid item container justifyContent="center">
         <TextField
           variant="outlined"
-          value={props.searchTerm}
-          onChange={(e) => handleChange(e)}
+          value={searchTerm}
+          onChange={(e) => dispatch(setSearchTerm(e.target.value))}
         ></TextField>
-        <Button variant="contained" color="primary" onClick={getData}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => dispatch(getRecipeData(getDataFromHealMeDelicious))}
+          disabled={!searchTerm}
+        >
           Submit
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          disabled={recipeArray.length === 0}
+          onClick={handleReset}
+        >
+          Reset
         </Button>
       </Grid>
     </Grid>
