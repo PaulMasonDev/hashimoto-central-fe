@@ -1,24 +1,18 @@
-import React, { useEffect } from "react";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  CircularProgress,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { Button, CircularProgress, Grid, Typography } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getIngredientsAndInstructions,
   setCondensedRecipe,
 } from "../redux/recipeSlice";
 import { generateCondensedRecipeForHealMeDelicious } from "../API/healMeDelicious";
+import { PrintRecipe } from "./PrintRecipe";
+import { CondensedRecipeContent } from "./CondensedRecipeContent";
 
 export const CondensedRecipe = () => {
+  const [isPrintRecipeOpen, setIsPrintRecipeOpen] = useState(false);
   const { condensedRecipe } = useSelector((state) => state.recipe);
-  const { name, imgSrc, ingredients, instructions, isLoading } = useSelector(
+  const { name, isLoading } = useSelector(
     (state) => state.recipe.condensedRecipe
   );
 
@@ -41,56 +35,18 @@ export const CondensedRecipe = () => {
             >
               Back
             </Button>
-          </Grid>
-          <Grid item>
-            <Typography variant="h2">{name}</Typography>
-          </Grid>
-          <Grid container item direction="row" spacing={2}>
-            <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-              <Card>
-                <CardHeader title="Ingredients" />
-                <CardContent>
-                  <ul>
-                    {ingredients?.length > 0 &&
-                      ingredients.map((ingredient) => {
-                        return (
-                          <li key={ingredient}>
-                            <Typography variant="body1" align="left">
-                              {ingredient}
-                            </Typography>
-                          </li>
-                        );
-                      })}
-                  </ul>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-              <Card>
-                <CardHeader title="Instructions" />
-                <CardMedia
-                  component="img"
-                  height="200"
-                  width="200"
-                  image={imgSrc}
-                  alt={name}
-                />
-                <CardContent>
-                  <ol>
-                    {instructions?.length > 0 &&
-                      instructions.map((instruction) => {
-                        return (
-                          <li key={instruction}>
-                            <Typography align="left" variant="body1">
-                              {instruction}
-                            </Typography>
-                          </li>
-                        );
-                      })}
-                  </ol>
-                </CardContent>
-              </Card>
-            </Grid>
+            {/* <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => setIsPrintRecipeOpen(true)}
+            >
+              Print
+            </Button> */}
+
+            <PrintRecipe
+              open={isPrintRecipeOpen}
+              close={() => setIsPrintRecipeOpen(false)}
+            />
           </Grid>
         </Grid>
       ) : (
