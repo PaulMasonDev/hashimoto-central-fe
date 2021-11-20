@@ -13,16 +13,19 @@ export const Main = () => {
     <Grid container direction="column">
       <Grid item>
         <Typography variant="h1">Hashimotos Central</Typography>
-        {/* TODO:NEED TO FIX THIS DISPLAY */}
-        {Object.keys(condensedRecipe).length > 0 && (
-          <CondensedRecipe link={condensedRecipe} />
+        {/* TODO:NEED TO FIX THIS DISPLAY ON MOBILE*/}
+        {condensedRecipe.link ? (
+          <CondensedRecipe />
+        ) : (
+          <>
+            <Grid item>
+              <SearchBox />
+            </Grid>
+            <Grid item>
+              <RecipeDisplay />
+            </Grid>
+          </>
         )}
-      </Grid>
-      <Grid item>
-        <SearchBox />
-      </Grid>
-      <Grid item>
-        <RecipeDisplay />
       </Grid>
     </Grid>
   );

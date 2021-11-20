@@ -5,7 +5,8 @@ export interface RecipeState {
   searchTerm: string;
   isSearching: boolean;
   recipeArray: RecipeData[];
-  condensedRecipe: RecipeData | {};
+  isRecipeResults: boolean;
+  condensedRecipe: CondensedRecipeData | { isLoading: boolean };
 }
 
 export interface RecipeData {
@@ -15,11 +16,28 @@ export interface RecipeData {
   source: string;
 }
 
+interface CondensedRecipeData {
+  link: string;
+  imgSrc: string;
+  name: string;
+  isLoading: boolean;
+  ingredients: string[];
+  instructions: string[];
+}
+
 const initialState: RecipeState = {
   searchTerm: "",
   isSearching: false,
   recipeArray: [],
-  condensedRecipe: {},
+  isRecipeResults: false,
+  condensedRecipe: {
+    link: "",
+    imgSrc: "",
+    name: "",
+    isLoading: false,
+    ingredients: [],
+    instructions: [],
+  },
 };
 
 export const getRecipeData = createAsyncThunk(
@@ -28,6 +46,20 @@ export const getRecipeData = createAsyncThunk(
     try {
       const { searchTerm } = thunkAPI.getState().recipe;
       const responseData = await func(searchTerm);
+      return responseData;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+);
+
+export const getIngredientsAndInstructions = createAsyncThunk(
+  "recipe/getIngredientsAndInstructions",
+  async (func: Function, thunkAPI: any) => {
+    try {
+      const { link } = thunkAPI.getState().recipe.condensedRecipe;
+      const responseData = await func(link);
       return responseData;
     } catch (error) {
       console.log(error);
@@ -47,7 +79,7 @@ export const recipeSlice = createSlice({
       const filteredRecipeArray = filterRecipes(action.payload);
       state.recipeArray = filteredRecipeArray;
     },
-    setCondensedRecipe: (state, action: PayloadAction<RecipeData>) => {
+    setCondensedRecipe: (state, action: PayloadAction<CondensedRecipeData>) => {
       state.condensedRecipe = action.payload;
     },
   },
@@ -65,6 +97,23 @@ export const recipeSlice = createSlice({
     builder.addCase(getRecipeData.rejected, (state) => {
       state.recipeArray = [];
       state.isSearching = false;
+    });
+    builder.addCase(getIngredientsAndInstructions.pending, (state) => {
+      state.condensedRecipe.isLoading = true;
+    });
+    builder.addCase(
+      getIngredientsAndInstructions.fulfilled,
+      (state, action: PayloadAction<Partial<CondensedRecipeData>>) => {
+        state.condensedRecipe = {
+          ...state.condensedRecipe,
+          ingredients: action.payload.ingredients,
+          instructions: action.payload.instructions,
+        };
+        state.condensedRecipe.isLoading = false;
+      }
+    );
+    builder.addCase(getIngredientsAndInstructions.rejected, (state) => {
+      state.condensedRecipe.isLoading = false;
     });
   },
 });
