@@ -7,14 +7,11 @@ import {
 } from "../redux/recipeSlice";
 import { generateCondensedRecipeForHealMeDelicious } from "../API/healMeDelicious";
 import { PrintRecipe } from "./PrintRecipe";
-import { CondensedRecipeContent } from "./CondensedRecipeContent";
 
 export const CondensedRecipe = () => {
   const [isPrintRecipeOpen, setIsPrintRecipeOpen] = useState(false);
   const { condensedRecipe } = useSelector((state) => state.recipe);
-  const { name, isLoading } = useSelector(
-    (state) => state.recipe.condensedRecipe
-  );
+  const { isLoading } = useSelector((state) => state.recipe.condensedRecipe);
 
   const dispatch = useDispatch();
   useEffect(() => {
