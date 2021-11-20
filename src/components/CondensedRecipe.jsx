@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import {
+  Button,
   Card,
   CardContent,
+  CardHeader,
   CardMedia,
+  CircularProgress,
   Grid,
-  List,
-  ListItem,
   Typography,
 } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,7 +18,7 @@ import { generateCondensedRecipeForHealMeDelicious } from "../API/healMeDeliciou
 
 export const CondensedRecipe = () => {
   const { condensedRecipe } = useSelector((state) => state.recipe);
-  const { name, imgSrc, ingredients, instructions } = useSelector(
+  const { name, imgSrc, ingredients, instructions, isLoading } = useSelector(
     (state) => state.recipe.condensedRecipe
   );
 
@@ -29,57 +30,74 @@ export const CondensedRecipe = () => {
   }, [dispatch, condensedRecipe.link]);
 
   return (
-    <Grid container direction="column">
-      <Grid item>
-        <button
-          onClick={() => dispatch(setCondensedRecipe({ isLoading: false }))}
-        >
-          Back
-        </button>
-      </Grid>
-      <Grid container item direction="row">
-        <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-          <Card>
-            <CardContent>
-              <List>
-                {ingredients?.length > 0 &&
-                  ingredients.map((ingredient) => {
-                    return (
-                      <ListItem key={ingredient}>
-                        <Typography variant="body1">{ingredient}</Typography>
-                      </ListItem>
-                    );
-                  })}
-              </List>
-            </CardContent>
-          </Card>
+    <>
+      {!isLoading ? (
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => dispatch(setCondensedRecipe({ isLoading: false }))}
+            >
+              Back
+            </Button>
+          </Grid>
+          <Grid item>
+            <Typography variant="h2">{name}</Typography>
+          </Grid>
+          <Grid container item direction="row" spacing={2}>
+            <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+              <Card>
+                <CardHeader title="Ingredients" />
+                <CardContent>
+                  <ul>
+                    {ingredients?.length > 0 &&
+                      ingredients.map((ingredient) => {
+                        return (
+                          <li key={ingredient}>
+                            <Typography variant="body1" align="left">
+                              {ingredient}
+                            </Typography>
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+              <Card>
+                <CardHeader title="Instructions" />
+                <CardMedia
+                  component="img"
+                  height="200"
+                  width="200"
+                  image={imgSrc}
+                  alt={name}
+                />
+                <CardContent>
+                  <ol>
+                    {instructions?.length > 0 &&
+                      instructions.map((instruction) => {
+                        return (
+                          <li key={instruction}>
+                            <Typography align="left" variant="body1">
+                              {instruction}
+                            </Typography>
+                          </li>
+                        );
+                      })}
+                  </ol>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-          <Card>
-            <CardMedia
-              component="img"
-              height="200"
-              width="200"
-              image={imgSrc}
-              alt={name}
-            />
-            <CardContent>
-              <ol>
-                {instructions?.length > 0 &&
-                  instructions.map((instruction) => {
-                    return (
-                      <li key={instruction}>
-                        <Typography align="left" variant="body1">
-                          {instruction}
-                        </Typography>
-                      </li>
-                    );
-                  })}
-              </ol>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-    </Grid>
+      ) : (
+        <Typography variant="h2">
+          <CircularProgress />
+        </Typography>
+      )}
+    </>
   );
 };

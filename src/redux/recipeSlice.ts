@@ -82,6 +82,11 @@ export const recipeSlice = createSlice({
     setCondensedRecipe: (state, action: PayloadAction<CondensedRecipeData>) => {
       state.condensedRecipe = action.payload;
     },
+    resetRecipeResults: (state, action: PayloadAction<boolean>) => {
+      state.searchTerm = "";
+      state.recipeArray = [];
+      state.isRecipeResults = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getRecipeData.pending, (state) => {
@@ -92,6 +97,7 @@ export const recipeSlice = createSlice({
       (state, action: PayloadAction<RecipeData[]>) => {
         state.recipeArray = action.payload;
         state.isSearching = false;
+        state.isRecipeResults = true;
       }
     );
     builder.addCase(getRecipeData.rejected, (state) => {
@@ -118,6 +124,10 @@ export const recipeSlice = createSlice({
   },
 });
 
-export const { setSearchTerm, setRecipeArray, setCondensedRecipe } =
-  recipeSlice.actions;
+export const {
+  setSearchTerm,
+  setRecipeArray,
+  setCondensedRecipe,
+  resetRecipeResults,
+} = recipeSlice.actions;
 export default recipeSlice.reducer;
