@@ -12,7 +12,9 @@ export const Main = () => {
   return (
     <Grid container direction="column">
       <Grid item>
-        <Typography variant="h1">Hashimotos Central</Typography>
+        <Typography variant="h1" align="center">
+          Hashimotos Central
+        </Typography>
         {/* TODO:NEED TO FIX THIS DISPLAY ON MOBILE*/}
         {condensedRecipe.link ? (
           <CondensedRecipe />
